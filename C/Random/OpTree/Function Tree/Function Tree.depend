@@ -1,0 +1,22 @@
+# depslib dependency file v1.0
+1485922708 source:e:\c\random\optree\function tree\func_tree.c
+	"func_tree.h"
+	<stdlib.h>
+	<string.h>
+	<stdio.h>
+
+1485480851 e:\c\random\optree\function tree\func_tree.h
+
+1483490139 source:e:\c\random\optree\function tree\interface.c
+	<stdio.h>
+	"interface.h"
+
+1483490066 e:\c\random\optree\function tree\interface.h
+	"func_tree.h"
+
+1507825106 source:e:\c\random\optree\function tree\main.c
+	"func_tree.h"
+	"interface.h"
+	<stdio.h>
+	<string.h>
+

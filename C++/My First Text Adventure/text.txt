@@ -1,0 +1,5 @@
+"Diga seu nome: "
+[nome]
+"Olá, [nome]! Quantos anos você tem?"
+[idade:int]
+"Ah, [idade]! Excelente!"
