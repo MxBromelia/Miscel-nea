@@ -56,7 +56,6 @@ void setup(struct table *table, int rows, int cols) {
 
 void new_game(struct table *table, int mines, int x, int y) {
     srand((unsigned)time(NULL));
-    int mines_pos[1024];
     int num_cells = cells(*table);
 
     table->num_mines = mines;

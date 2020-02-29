@@ -7,6 +7,8 @@ CC ?= gcc
 SRC_EXT = c
 # Path to the source directory, relative to the makefile
 SRC_PATH = .
+# Path to the headers directory, relative to the makefile
+INCLUDE_PATH = include/
 # Space-separated pkg-config libraries used by this project
 LIBS =
 # General compiler flags
@@ -16,7 +18,7 @@ RCOMPILE_FLAGS = -D NDEBUG
 # Additional debug-specific flags
 DCOMPILE_FLAGS = -D DEBUG
 # Add additional include paths
-INCLUDES = -I $(SRC_PATH)
+INCLUDES = -I $(INCLUDE_PATH)
 # General linker settings
 LINK_FLAGS =
 # Additional release-specific linker settings
