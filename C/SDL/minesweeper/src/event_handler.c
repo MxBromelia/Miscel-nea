@@ -17,6 +17,13 @@ void handle_mouse_left_button_down(struct context *context, int x, int y) {
   dig(&(*context).game, row, col);
 }
 
+void handle_mouse_right_button_down(struct context *context, int x, int y) {
+  int col = x / 32;
+  int row = y / 32;
+
+  toggle_flag(&(context->game), row, col);
+}
+
 void handle_event(struct context *context, SDL_Event *event) {
   switch(event->type) {
   case SDL_QUIT:
@@ -40,6 +47,7 @@ void handle_event(struct context *context, SDL_Event *event) {
     case SDL_BUTTON_MIDDLE:
       break;
     case SDL_BUTTON_RIGHT:
+      handle_mouse_right_button_down(context, event->button.x, event->button.y);
       break;
     }
     break;

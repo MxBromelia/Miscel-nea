@@ -35,7 +35,7 @@ bool init(struct context *context) {
   context->window = SDL_CreateWindow(
     "Campo Minado",
     SDL_WINDOWPOS_UNDEFINED, SDL_WINDOWPOS_UNDEFINED,
-    640, 480, SDL_WINDOW_SHOWN
+    256, 256, SDL_WINDOW_SHOWN
   );
   if(context->window == NULL) {
     fprintf(stderr, "Falha durante a criação da janela\n");
@@ -89,22 +89,37 @@ void render(struct context *context) {
   SDL_RenderClear(context->renderer);
   struct table *game = &(context->game);
 
-  int figure_index[] = {
+  static int figure_index[] = {
     ['*'] = 0,
     ['1'] = 2, ['2'] = 3, ['3'] = 4, ['4'] = 5,
     ['5'] = 6, ['6'] = 7, ['7'] = 8, ['8'] = 9
   };
 
-  for(int i=0; i < context->game.rows; i++) {
-    for(int j=0; j < context->game.cols; j++) {
-      int index = i*game->cols+j;
-      draw_tile(context->renderer,
-        (*context).cell_states.tiles[game->digged[index]],
-        32*j, 32*i);
-      if((game->digged[index]) && (game->field[index] != '0')) {
+  switch(game->status) {
+  case MS_DEFEAT:
+    SDL_SetRenderDrawColor(context->renderer, 255, 0, 0, 1.0f);
+    break;
+  case MS_VICTORY:
+    SDL_SetRenderDrawColor(context->renderer, 0, 255, 0, 1.0f);
+    break;
+  case MS_UNFINISHED:
+    for(int i=0; i < context->game.rows; i++) {
+      for(int j=0; j < context->game.cols; j++) {
+        int index = i*game->cols+j;
         draw_tile(context->renderer,
-          (*context).field_states.tiles[figure_index[(int)game->field[index]]],
+          (*context).cell_states.tiles[game->digged[index]],
           32*j, 32*i);
+        if(game->flagged[index]) {
+          draw_tile(context->renderer,
+          (*context).field_states.tiles[1],
+          32*j, 32*i);
+        }
+
+        if((game->digged[index]) && (game->field[index] != '0')) {
+          draw_tile(context->renderer,
+            (*context).field_states.tiles[figure_index[(int)game->field[index]]],
+            32*j, 32*i);
+        }
       }
     }
   }

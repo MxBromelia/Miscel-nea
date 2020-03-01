@@ -16,6 +16,9 @@ void new_game(struct table*, int, int, int);
 // Cava um buraco, i.e faz uma jogada
 int dig(struct table*, int, int);
 
+// Marca ou desmarca uma bandeira
+void toggle_flag(struct table*, int, int);
+
 // Checa se o jogo continua ou acabou, e no caso do segundo, se o jogador ganhou ou perdeu
 int game_status(struct table*);
 

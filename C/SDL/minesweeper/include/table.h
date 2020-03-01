@@ -13,6 +13,7 @@ struct table {
     int cols; // Número de Colunas na campo
     char field[1024]; // Campo
     bool digged[1024]; // Campo(Excavado)
+    bool flagged[1024]; //Campo(Marcado)
 
     int num_mines; //Número de minas no campo
     int mines[1024]; //Posição de todas as minas no campo

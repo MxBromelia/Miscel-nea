@@ -52,6 +52,7 @@ void setup(struct table *table, int rows, int cols) {
     table->last_checked_turn = -1;
     table->cells_digged = 0;
     memcpy(table->digged, (bool[]) {[0 ... 1024] = false}, num_cells);
+    memcpy(table->flagged, (bool[]) {[0 ... 1024] = false}, num_cells);
 }
 
 void new_game(struct table *table, int mines, int x, int y) {
@@ -69,6 +70,7 @@ void new_game(struct table *table, int mines, int x, int y) {
 
 void propagate(struct table *table, int pos) {
     if(pos == -1) return;
+    if(table->flagged[pos]) return;
     if(table->digged[pos]) return;
 
     table->digged[pos] = true;
@@ -83,12 +85,22 @@ void propagate(struct table *table, int pos) {
 }
 
 int dig(struct table *table, int row, int col) {
+    if(table->status == MS_DEFEAT) return MS_DEFEAT;
     int cell = table->cols*row + col;
 
     table->last_turn = cell;
     propagate(table, cell);
 
     return game_status(table);
+}
+
+void toggle_flag(struct table *table, int row, int col) {
+    if(table->status == MS_DEFEAT) return;
+    int cell = table->cols*row + col;
+
+    if(table->digged[cell] == false) {
+        table->flagged[cell] = !table->flagged[cell];
+    }
 }
 
 
