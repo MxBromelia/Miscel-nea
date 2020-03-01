@@ -10,7 +10,7 @@ SDL_Texture* load_texture(SDL_Renderer* renderer, char* file) {
     texture = NULL;
     return NULL;
   }
-
+  SDL_SetColorKey(surface, true, SDL_MapRGB(surface->format, 255, 255, 255));
   texture = SDL_CreateTextureFromSurface(renderer, surface);
   SDL_FreeSurface(surface);
 
