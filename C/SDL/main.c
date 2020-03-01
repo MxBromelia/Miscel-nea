@@ -5,8 +5,7 @@
 
 int main()
 {
-	struct context context;
+	struct context context = default_context;
 
 	return execute(&context);
 }
-

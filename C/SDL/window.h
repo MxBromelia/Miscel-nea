@@ -9,7 +9,11 @@ struct context {
 
   SDL_Window *window;
   SDL_Renderer *renderer;
+
+  SDL_Texture *texture;
 };
+
+extern const struct context default_context;
 
 int execute(struct context*);
 
