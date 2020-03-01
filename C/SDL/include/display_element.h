@@ -4,7 +4,7 @@
 #include <SDL2/SDL.h>
 #include <stdbool.h>
 
-SDL_Texture* load(SDL_Renderer*, char*);
+SDL_Texture* load_texture(SDL_Renderer*, char*);
 
 bool draw_texture(SDL_Texture*, SDL_Renderer*, int , int);
 

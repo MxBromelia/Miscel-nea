@@ -1,6 +1,6 @@
 #include "display_element.h"
 
-SDL_Texture* load(SDL_Renderer* renderer, char* file) {
+SDL_Texture* load_texture(SDL_Renderer* renderer, char* file) {
   SDL_Texture* texture = NULL;
   SDL_Surface *surface = NULL;
 

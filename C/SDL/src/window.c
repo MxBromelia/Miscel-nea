@@ -48,7 +48,7 @@ bool init(struct context *context) {
   SDL_RenderClear(context->renderer);
   SDL_RenderPresent(context->renderer);
 
-  context->texture = load(context->renderer, "thumbs_up.bmp");
+  context->texture = load_texture(context->renderer, "assets/thumbs_up.bmp");
   if(context->texture == NULL) {
     fprintf(stderr, "Falha na inicialização da textura\n");
     return false;
@@ -60,9 +60,6 @@ bool init(struct context *context) {
 }
 
 void event_handler(struct context *context, SDL_Event *event) {
-  // if(event->type == SDL_QUIT) {
-  //   context->running = false;
-  // }
   handle_event(context, event);
 }
 
