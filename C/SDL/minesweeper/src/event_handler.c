@@ -11,7 +11,7 @@ void handle_mouse_left_button_down(struct context *context, int x, int y) {
 
   if(context->game_started == false) {
     context->game_started = true;
-    new_game(&(context->game), 10, col, row);
+    new_game(&(context->game), 10, row, col);
   }
 
   dig(&(*context).game, row, col);
