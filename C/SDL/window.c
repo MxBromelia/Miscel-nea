@@ -1,13 +1,7 @@
 #include <stdio.h>
 #include "window.h"
 #include "display_element.h"
-
-const struct context default_context = {
-  .running = false,
-  .window = NULL,
-  .renderer = NULL,
-  .texture = NULL
-};
+#include "event_handler.h"
 
 int execute(struct context *context) {
   if(init(context) == false) {
@@ -66,9 +60,10 @@ bool init(struct context *context) {
 }
 
 void event_handler(struct context *context, SDL_Event *event) {
-  if(event->type == SDL_QUIT) {
-    context->running = false;
-  }
+  // if(event->type == SDL_QUIT) {
+  //   context->running = false;
+  // }
+  handle_event(context, event);
 }
 
 void loop(struct context *context) {

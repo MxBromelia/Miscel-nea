@@ -3,17 +3,7 @@
 
 #include <stdbool.h>
 #include <SDL2/SDL.h>
-
-struct context {
-  bool running;
-
-  SDL_Window *window;
-  SDL_Renderer *renderer;
-
-  SDL_Texture *texture;
-};
-
-extern const struct context default_context;
+#include "context.h"
 
 int execute(struct context*);
 
