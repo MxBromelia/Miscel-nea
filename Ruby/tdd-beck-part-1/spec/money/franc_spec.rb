@@ -13,4 +13,8 @@ describe Franc do
     expect(Money.franc(5)).to eq(Money.franc(5))
     expect(Money.franc(5)).to_not eq(Money.franc(6))
   end
+
+  it 'compara a moeda' do
+    expect(Money.franc(1).currency).to eq('CHF')
+  end
 end

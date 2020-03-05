@@ -13,4 +13,8 @@ describe Dollar do
     expect(Money.dollar(5)).to eq(Money.dollar(5))
     expect(Money.dollar(5)).to_not eq(Money.dollar(6))
   end
+
+  it 'compara a moeda' do
+    expect(Money.dollar(1).currency).to eq('USD')
+  end
 end
