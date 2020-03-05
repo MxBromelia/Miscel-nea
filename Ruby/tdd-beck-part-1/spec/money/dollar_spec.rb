@@ -13,4 +13,4 @@ describe Dollar do
     expect(Dollar.new(5)).to eq(Dollar.new(5))
     expect(Dollar.new(5)).to_not eq(Dollar.new(6))
   end
-end 
+end
