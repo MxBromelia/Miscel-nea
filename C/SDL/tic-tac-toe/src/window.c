@@ -32,7 +32,7 @@ bool init(struct context *context) {
   context->window = SDL_CreateWindow(
     "Campo Minado",
     SDL_WINDOWPOS_UNDEFINED, SDL_WINDOWPOS_UNDEFINED,
-    640, 480, SDL_WINDOW_SHOWN
+    600, 600, SDL_WINDOW_SHOWN
   );
   if(context->window == NULL) {
     fprintf(stderr, "Falha durante a criação da janela\n");
@@ -48,8 +48,20 @@ bool init(struct context *context) {
   SDL_RenderClear(context->renderer);
   SDL_RenderPresent(context->renderer);
 
-  context->texture = load_texture(context->renderer, "assets/thumbs_up.bmp");
-  if(context->texture == NULL) {
+  context->texture_grid = load_texture(context->renderer, "gfx/grid.bmp");
+  if(context->texture_grid == NULL) {
+    fprintf(stderr, "Falha na inicialização da textura\n");
+    return false;
+  }
+
+  context->texture_x = load_texture(context->renderer, "gfx/x.bmp");
+  if(context->texture_x == NULL) {
+    fprintf(stderr, "Falha na inicialização da textura\n");
+    return false;
+  }
+
+  context->texture_o = load_texture(context->renderer, "gfx/o.bmp");
+  if(context->texture_x == NULL) {
     fprintf(stderr, "Falha na inicialização da textura\n");
     return false;
   }
@@ -69,14 +81,24 @@ void loop(struct context *context) {
 
 void render(struct context *context) {
   SDL_RenderClear(context->renderer);
-  draw_texture(context->texture, context->renderer, 0, 0);
-  draw_partial_texture(context->texture, context->renderer, 100, 100, &((SDL_Rect) {.w = 32, .h = 32}));
+  draw_texture(context->texture_grid, context->renderer, 0 , 0);
+  for(int i=0; i<9; i++) {
+    int x = (i % 3)*200;
+    int y = (i / 3)*200;
 
+    if(context->grid[i] == GRID_TYPE_X) {
+      draw_texture(context->texture_x, context->renderer, x, y);
+    } else if(context->grid[i] == GRID_TYPE_O) {
+      draw_texture(context->texture_o, context->renderer, x, y);
+    }
+  }
   SDL_RenderPresent(context->renderer);
 }
 
 void clean_up(struct context *context) {
-  SDL_DestroyTexture(context->texture);
+  SDL_DestroyTexture(context->texture_grid);
+  SDL_DestroyTexture(context->texture_o);
+  SDL_DestroyTexture(context->texture_x);
   SDL_DestroyRenderer(context->renderer);
   SDL_DestroyWindow(context->window);
 
