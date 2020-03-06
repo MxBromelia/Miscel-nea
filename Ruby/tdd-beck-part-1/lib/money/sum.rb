@@ -11,5 +11,11 @@ class Sum
     Money.new(amount, currency)
   end
 
-  def +(other); end
+  def +(other)
+    Sum.new(self, other)
+  end
+
+  def *(other)
+    Sum.new(@augend * other, @addend * other)
+  end
 end

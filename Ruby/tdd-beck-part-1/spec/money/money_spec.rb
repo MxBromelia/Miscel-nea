@@ -56,6 +56,28 @@ describe Money do
       result = bank.reduce(five_dollars + ten_francs, 'USD')
       expect(Money.dollar(10)).to eq(result)
     end
+
+    it 'test sum plus money' do
+      five_dollars = Money.dollar(5)
+      ten_francs = Money.franc(10)
+      bank = Bank.new
+      bank.add_rate 'CHF', 'USD', 2
+      bank.add_rate 'USD', 'USD', 1
+      sum = Sum.new(five_dollars, ten_francs) + five_dollars
+      result = bank.reduce(sum, 'USD')
+      expect(Money.dollar(15)).to eq(result)
+    end
+
+    it 'test sum times' do
+      five_dollars = Money.dollar(5)
+      ten_francs = Money.franc(10)
+      bank = Bank.new
+      bank.add_rate 'CHF', 'USD', 2
+      bank.add_rate 'USD', 'USD', 1
+      sum = Sum.new(five_dollars, ten_francs) * 2
+      result = bank.reduce(sum, 'USD')
+      expect(Money.dollar(20)).to eq(result)
+    end
   end
 
   describe '#product(*)' do
