@@ -6,12 +6,15 @@ require 'money/bank'
 describe Money do
   describe '#sum(+)' do
     it 'soma os dois escalares se a moeda é do mesmo tipo' do
-      expect(Bank.new.reduce(Money.dollar(5) + Money.dollar(5), 'USD')).to eq(Money.dollar(10))
+      bank = Bank.new
+      bank.add_rate 'USD', 'USD', 1
+      expect(bank.reduce(Money.dollar(5) + Money.dollar(5), 'USD')).to eq(Money.dollar(10))
     end
 
     it 'soma duas moedas de tipo diferente' do
       sum = Money.dollar(5) + Money.dollar(5)
       bank = Bank.new
+      bank.add_rate 'USD', 'USD', 1
       reduced = bank.reduce(sum, 'USD')
       expect(reduced).to eq(Money.dollar(10))
     end
@@ -25,6 +28,7 @@ describe Money do
     it 'test reduce sum' do
       sum = Sum.new(Money.dollar(3), Money.dollar(4))
       bank = Bank.new
+      bank.add_rate 'USD', 'USD', 1
       result = bank.reduce(sum, 'USD')
       expect(Money.dollar(7)).to eq(result)
     end
@@ -41,6 +45,16 @@ describe Money do
       bank.add_rate('CHF', 'USD', 2)
       result = bank.reduce(Money.franc(2), 'USD')
       expect(Money.dollar(1)).to eq(result)
+    end
+
+    it 'test mixed addition' do
+      five_dollars = Money.dollar(5)
+      ten_francs = Money.franc(10)
+      bank = Bank.new
+      bank.add_rate 'CHF', 'USD', 2
+      bank.add_rate 'USD', 'USD', 1
+      result = bank.reduce(five_dollars + ten_francs, 'USD')
+      expect(Money.dollar(10)).to eq(result)
     end
   end
 
