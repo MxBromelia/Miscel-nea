@@ -1,3 +1,5 @@
+require_relative 'sum'
+
 class Money
   attr_accessor :amount
   attr_reader :currency
@@ -14,6 +16,15 @@ class Money
   def initialize(amount, currency)
     @amount = amount
     @currency = currency
+  end
+
+  def reduce(_currency)
+    self
+  end
+
+  def +(other)
+    # Money.new(@amount + other.amount, @currency)
+    Sum.new(self, other)
   end
 
   def *(other)
