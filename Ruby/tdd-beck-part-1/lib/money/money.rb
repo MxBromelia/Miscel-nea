@@ -3,7 +3,6 @@ require_relative 'sum'
 class Money
   attr_accessor :amount
   attr_reader :currency
-  
 
   def self.dollar(amount)
     Money.new(amount, 'USD')
@@ -18,12 +17,12 @@ class Money
     @currency = currency
   end
 
-  def reduce(_currency)
-    self
+  def reduce(bank, currency)
+    rate = bank.rate(@currency, currency)
+    Money.new amount / rate, currency
   end
 
   def +(other)
-    # Money.new(@amount + other.amount, @currency)
     Sum.new(self, other)
   end
 
