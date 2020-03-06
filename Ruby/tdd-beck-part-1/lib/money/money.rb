@@ -4,11 +4,11 @@ class Money
   
 
   def self.dollar(amount)
-    Dollar.new(amount, 'USD')
+    Money.new(amount, 'USD')
   end
 
   def self.franc(amount)
-    Franc.new(amount, 'CHF')
+    Money.new(amount, 'CHF')
   end
 
   def initialize(amount, currency)
@@ -16,7 +16,15 @@ class Money
     @currency = currency
   end
 
+  def *(other)
+    Money.new(@amount * other, @currency)
+  end
+
   def ==(other)
-    self.class == other.class && @amount == other.amount
+    @currency == other.currency && @amount == other.amount
+  end
+
+  def to_s
+    "#{amount} #{currency}"
   end
 end
