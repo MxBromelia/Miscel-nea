@@ -49,10 +49,6 @@ bool init(struct context *context) {
   SDL_RenderPresent(context->renderer);
 
   context->texture = load_texture(context->renderer, "assets/thumbs_up.bmp");
-  if(context->texture == NULL) {
-    fprintf(stderr, "Falha na inicialização da textura\n");
-    return false;
-  }
 
   SDL_SetHint(SDL_HINT_RENDER_SCALE_QUALITY, "linear");
 
