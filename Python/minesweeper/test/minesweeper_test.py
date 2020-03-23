@@ -15,6 +15,11 @@ class TestField(TestCase):
         field = Field(1, 1, 1)
         self.assertEqual(field[0][0], FieldEnum.NOTHING)
 
+    def test_setFieldElement(self):
+        field = Field(1, 1, 1)
+        field[0][0] = "Set"
+        self.assertEqual(field[0][0], "Set")
+
 class TestMinesweeper(TestCase):
     def test_digAnEmptyHoleRevealsNothing(self):
         mine = Minesweeper(1, 1, 0)

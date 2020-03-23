@@ -12,7 +12,7 @@ class Field:
         self.__cols = cols
         self.__cells = self.rows * self.cols
         self.__mines = mines
-        self.__table = [FieldEnum.NOTHING for _ in range(self.cells)]
+        self.__table = [[FieldEnum.NOTHING for _ in range(cols)] for _ in range(rows)]
         self.__dug_cells = 0
         self.__dug = [False for _ in range(self.cells)]
 
@@ -50,11 +50,12 @@ class Field:
     def dug(self):
         return self.__dug
 
-    def __getitem__(self, key):
-        return self.__table[key*self.cols:(key+1)*self.cols]
+    def __getitem__(self, idx):
+        # return self.__table[key*self.cols:(key+1)*self.cols]
+        return self.__table[idx]
 
-    def __setitem__(self, key, value):
-        self.__table[key] = value
+    def __setitem__(self, idx, item):
+        self.__table[idx] = item
 
 
 class Minesweeper:
@@ -92,12 +93,11 @@ class Minesweeper:
     def __generate_mine_field__(self, rows, cols, mines):
         mine_field = Field(rows, cols, mines)
         for index in self.__mine_generator(mine_field.cells, mines):
-            mine_field[index] = FieldEnum.MINE
+            mine_field[index//mine_field.cols][index % mine_field.cols] = FieldEnum.MINE
 
         for row in range(mine_field.rows):
             for col in range(mine_field.cols-1):
                 if mine_field[row][col+1] == FieldEnum.MINE:
-                    # mine_field[row][col] = FieldEnum.ONE_AROUND
-                    mine_field[mine_field.index(row, col)] = FieldEnum.ONE_AROUND
+                    mine_field[row][col] = FieldEnum.ONE_AROUND
 
         return mine_field
