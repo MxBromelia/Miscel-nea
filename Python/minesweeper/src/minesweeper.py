@@ -1,10 +1,41 @@
 from random import randint
 from enum import Enum
 
-class FieldEnum(Enum):
+
+class HoleContent(Enum):
     NOTHING = 0
     MINE = -1
     ONE_AROUND = 1
+
+class Cell:
+    def __init__(self, fill=HoleContent.NOTHING):
+        self.__fill = fill
+        # self.__dug = False
+        self.dug = False
+
+    # def dig(self):
+    #     if self.__dug:
+    #         return False
+
+    #     self.__dug = True
+    #     return True
+
+    # @property
+    # def dug(self):
+    #     return self.__dug
+
+    @property
+    def fill(self):
+        return self.__fill
+
+    def __eq__(self, other):
+        return self.fill == other.fill and self.dug == other.dug
+
+class FieldRow(list):
+    def __setitem__(self, idx, item):
+        if not isinstance(item, Cell):
+            raise TypeError
+        super().__setitem__(idx, item)
 
 class Field:
     def __init__(self, rows, cols, mines):
@@ -12,7 +43,7 @@ class Field:
         self.__cols = cols
         self.__cells = self.rows * self.cols
         self.__mines = mines
-        self.__table = [[FieldEnum.NOTHING for _ in range(cols)] for _ in range(rows)]
+        self.__table = [FieldRow([Cell() for _ in range(cols)]) for _ in range(rows)]
         self.__dug_cells = 0
         self.__dug = [False for _ in range(self.cells)]
 
@@ -51,35 +82,34 @@ class Field:
         return self.__dug
 
     def __getitem__(self, idx):
-        # return self.__table[key*self.cols:(key+1)*self.cols]
         return self.__table[idx]
 
     def __setitem__(self, idx, item):
         self.__table[idx] = item
 
-
-class Minesweeper:
-    """ Campo Minado """
-
+class GameStatus(Enum):
     DEFEAT = 0
     VICTORY = 1
     UNFINISHED = 2
 
+class Minesweeper:
+    """ Campo Minado """
+
     def __init__(self, rows, cols, mines, mine_generator=None):
         self.__mine_generator = mine_generator or self.__generate_mines
         self.mine_field = self.__generate_mine_field__(rows, cols, mines)
-        self.__status = self.UNFINISHED
+        self.__status = GameStatus.UNFINISHED
 
     def dig(self, row, col):
         self.mine_field.dig(row, col)
-        cell = self.mine_field[row][col]
+        cell = self.mine_field[row][col].fill
 
-        if cell == FieldEnum.MINE:
-            self.__status = self.DEFEAT
+        if cell == HoleContent.MINE:
+            self.__status = GameStatus.DEFEAT
             return cell
 
-        if self.mine_field.all_dug:
-            self.__status = self.VICTORY
+        if self.mine_field.all_dug():
+            self.__status = GameStatus.VICTORY
 
         return cell
 
@@ -93,11 +123,13 @@ class Minesweeper:
     def __generate_mine_field__(self, rows, cols, mines):
         mine_field = Field(rows, cols, mines)
         for index in self.__mine_generator(mine_field.cells, mines):
-            mine_field[index//mine_field.cols][index % mine_field.cols] = FieldEnum.MINE
+            row = index // mine_field.cols
+            col = index % mine_field.cols
+            mine_field[row][col] = Cell(HoleContent.MINE)
 
         for row in range(mine_field.rows):
             for col in range(mine_field.cols-1):
-                if mine_field[row][col+1] == FieldEnum.MINE:
-                    mine_field[row][col] = FieldEnum.ONE_AROUND
+                if mine_field[row][col+1].fill == HoleContent.MINE:
+                    mine_field[row][col].fill = HoleContent.ONE_AROUND
 
         return mine_field
