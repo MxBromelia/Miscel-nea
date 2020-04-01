@@ -1,7 +1,10 @@
+#pylint: disable=missing-module-docstring
 from unittest import TestCase
 from src.cell import Cell
 
+#pylint: disable=missing-class-docstring
 class CellTest(TestCase):
+    #pylint: disable=missing-function-docstring
     def test_cell_starts_not_digged(self):
         cell = Cell()
         self.assertFalse(cell.digged())
@@ -40,7 +43,7 @@ class CellTest(TestCase):
         cell = Cell()
         cell.switch_flag()
         self.assertTrue(cell.flagged())
-    
+
     def test_switch_flag_uncovered(self):
         cell = Cell()
         cell.dig()
@@ -66,33 +69,57 @@ class CellTest(TestCase):
         cell = Cell()
         cell.dig()
         self.assertTrue(cell.digged())
-        
+  
     def test_equality_mine(self):
         cell_1 = Cell(False)
         cell_2 = Cell(False)
         self.assertTrue(cell_1 == cell_2)
-    
+
     def test_inequality_mine(self):
         cell_1 = Cell(True)
         cell_2 = Cell(False)
         self.assertFalse(cell_1 == cell_2)
 
     def test_equality_dig(self):
-        cell_1 = Cell(True); cell_1.dig()
-        cell_2 = Cell(True); cell_2.dig()
+        cell_1 = Cell(True)
+        cell_1.dig()
+        cell_2 = Cell(True)
+        cell_2.dig()
         self.assertTrue(cell_1 == cell_2)
 
     def test_inequality_dig(self):
-        cell_1 = Cell(False); cell_1.dig()
+        cell_1 = Cell(False)
+        cell_1.dig()
         cell_2 = Cell(False)
         self.assertFalse(cell_1 == cell_2)
 
     def test_equality_flag(self):
-        cell_1 = Cell(True); cell_1.switch_flag()
-        cell_2 = Cell(True); cell_2.switch_flag()
+        cell_1 = Cell(True)
+        cell_1.switch_flag()
+        cell_2 = Cell(True)
+        cell_2.switch_flag()
         self.assertTrue(cell_1 == cell_2)
 
     def test_inequality_flag(self):
-        cell_1 = Cell(True); cell_1.switch_flag()
+        cell_1 = Cell(True)
+        cell_1.switch_flag()
         cell_2 = Cell(True)
         self.assertFalse(cell_1 == cell_2)
+
+    def test_winnable_no_mine_no_dug(self):
+        cell = Cell(False)
+        self.assertFalse(cell.winnable())
+
+    def test_winnable_no_mine_dug(self):
+        cell = Cell(False)
+        cell.dig()
+        self.assertTrue(cell.winnable())
+
+    def test_winnable_mine_no_dug(self):
+        cell = Cell(True)
+        self.assertTrue(cell.winnable())
+
+    def test_winnable_mine_dug(self):
+        cell = Cell(True)
+        cell.dig()
+        self.assertFalse(cell.winnable())
